@@ -30,3 +30,15 @@ FROM station
 WHERE lat_n =
   (SELECT MAX(lat_n) FROM station WHERE lat_n < 137.2345)
 ```
+
+4. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings.
+
+```sql
+SELECT 
+    months * salary AS earnings,
+    COUNT(*)
+FROM employee
+GROUP BY earnings
+ORDER BY earnings DESC
+LIMIT 1
+```
