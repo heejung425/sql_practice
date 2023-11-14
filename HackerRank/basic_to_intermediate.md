@@ -42,3 +42,14 @@ GROUP BY earnings
 ORDER BY earnings DESC
 LIMIT 1
 ```
+
+5. Write a query identifying the type of each record in the TRIANGLES table using its three side lengths.
+```sql
+SELECT CASE
+            WHEN A = B AND B = C THEN 'Equilateral'
+            WHEN A + B <= C  OR B + C <= A OR A + C <= B THEN 'Not A Triangle'
+            WHEN A = B OR B = C OR C = A THEN 'Isosceles'
+            ELSE 'Scalene'
+        END AS 'shape'
+FROM TRIANGLES
+```
