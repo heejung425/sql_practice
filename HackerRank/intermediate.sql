@@ -81,3 +81,10 @@ GROUP BY s.hacker_id, h.name
 HAVING COUNT(DISTINCT s.submission_id) > 1  --  who took more than one challenge 
 ORDER BY COUNT(DISTINCT s.submission_id) DESC, s.hacker_id
 
+
+
+/* 5. Query the Euclidean Distance between points p1 and p2 and format your answer to display 4 decimal digits.*/
+
+SELECT 
+    ROUND(SQRT(POWER(MAX(lat_n)-MIN(lat_n),2) + POWER(MAX(long_w)-MIN(long_W),2)),4)
+FROM station
