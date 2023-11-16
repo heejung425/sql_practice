@@ -55,3 +55,27 @@ FROM company AS c
 GROUP BY c.company_code, c.founder
 ORDER BY c.company_code
 
+/*4. Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! 
+Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. 
+Order your output in descending order by the total number of challenges in which the hacker earned a full score. 
+If more than one hacker received full scores in the same number of challenges, then sort them by ascending hacker_id. 
+
+ There are four tables:
+    Hackers (hacker_id, name)
+    Difficulty(difficulty_level,score) 
+    Challenges (challenge_id, hacker_id, difficulty_level)
+    Submissions (submission_id, hacker_id, challenge_id, score)
+*/
+
+SELECT 
+    s.hacker_id, 
+    h.name
+FROM submissions AS s
+    INNER JOIN hackers AS h ON h.hacker_id = s.hacker_id
+    INNER JOIN challenges AS c ON c.challenge_id = s.challenge_id
+    INNER JOIN difficulty AS d ON d.difficulty_level = c.difficulty_level
+WHERE s.score = d.score  -- to get the full scores
+GROUP BY s.hacker_id, h.name
+HAVING COUNT(DISTINCT s.submission_id) > 1  --  who took more than one challenge 
+ORDER BY COUNT(DISTINCT s.submission_id) DESC, s.hacker_id
+
