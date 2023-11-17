@@ -1,4 +1,5 @@
-/* 1. You are given a table, Functions, containing two columns: X and Y. 
+/* 1. Symmetric Pairs 
+You are given a table, Functions, containing two columns: X and Y. 
 Two pairs (X1, Y1) and (X2, Y2) are said to be symmetric pairs if X1 = Y2 and X2 = Y1. 
 Write a query to output all such symmetric pairs in ascending order by the value of X. List the rows such that X1 ≤ Y1.
 */
@@ -20,7 +21,8 @@ ORDER BY x
 
 
 
-/* 2. Consider p1(a,b) and p2(c,d) to be two points on a 2D plane.
+/* 2. Weather Observation Station 18
+Consider p1(a,b) and p2(c,d) to be two points on a 2D plane.
 a happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
 b happens to equal the minimum value in Western Longitude (LONG_W in STATION).
 c happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
@@ -34,7 +36,8 @@ FROM station
 
 
     
-/*3. Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy: 
+/*3. New Companies
+Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy: 
 Founder > Lead Manager > Senior Manager > Manager > Employee
 Write a query to print the company_code, founder name, total # of lead managers, total # of senior managers, total # of managers, and total # of employees. 
 Order your output by ascending company_code.
@@ -57,7 +60,8 @@ ORDER BY c.company_code
 
 
     
-/*4. Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! 
+/*4. Top Competitors
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! 
 Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. 
 Order your output in descending order by the total number of challenges in which the hacker earned a full score. 
 If more than one hacker received full scores in the same number of challenges, then sort them by ascending hacker_id. 
@@ -83,8 +87,31 @@ ORDER BY COUNT(DISTINCT s.submission_id) DESC, s.hacker_id
 
 
 
-/* 5. Query the Euclidean Distance between points p1 and p2 and format your answer to display 4 decimal digits.*/
+/* 5. Weather Observation Station 19
+    Query the Euclidean Distance between points p1 and p2 and format your answer to display 4 decimal digits.*/
 
 SELECT 
     ROUND(SQRT(POWER(MAX(lat_n)-MIN(lat_n),2) + POWER(MAX(long_w)-MIN(long_W),2)),4)
 FROM station
+
+
+
+/* 6. Placements
+You are given three tables: Students, Friends and Packages. 
+Students contains two columns: ID and Name. 
+Friends contains two columns: ID and Friend_ID (ID of the ONLY best friend). 
+Packages contains two columns: ID and Salary (offered salary in $ thousands per month).
+Write a query to output the names of those students whose best friends got offered a higher salary than them. 
+Names must be ordered by the salary amount offered to the best friends. 
+It is guaranteed that no two students got same salary offer.
+*/
+
+SELECT 
+    s.name
+FROM friends AS f
+    INNER JOIN students AS s ON s.id = f.id
+    INNER JOIN packages AS p ON p.id = f.id
+    INNER JOIN packages AS pf ON pf.id = f.friend_id
+WHERE pf.salary > p.salary
+ORDER BY pf.salary
+
