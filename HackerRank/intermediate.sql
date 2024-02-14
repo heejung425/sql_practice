@@ -132,3 +132,34 @@ SELECT n,
         ELSE 'Inner' END
 FROM bst
 ORDER BY n
+
+
+/* 8. Julia asked her students to create some coding challenges.  Write a query to print the hacker_id, name, and the total number of challenges created by each student. 
+ Sort your results by the total number of challenges in descending order.  If more than one student created the same number of challenges, then sort the result by hacker_id. 
+ If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result
+*/
+
+WITH counter AS  (
+SELECT 
+      hackers.hacker_id
+    , hackers.name
+    , COUNT(*) AS total_challenge
+FROM challenges
+    INNER JOIN hackers
+    ON hackers.hacker_id = challenges.hacker_id
+GROUP BY hackers.hacker_id, hackers.name
+    )
+    
+SELECT 
+      counter.hacker_id
+    , counter.name
+    , counter.total_challenge
+FROM counter
+WHERE total_challenge = (SELECT MAX(total_challenge)FROM counter)
+OR total_challenge IN (
+                        SELECT total_challenge
+                        FROM counter
+                        GROUP BY total_challenge
+                        HAVING COUNT(*) = 1
+                        )
+ORDER BY counter.total_challenge DESC, counter.hacker_id
